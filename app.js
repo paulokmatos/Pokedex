@@ -5,17 +5,26 @@ const generatePokemonPromises = () => Array(151).fill().map((_, index) => fetch(
 
 const generateHTML = pokemons => pokemons.reduce((accumulator, { name, id, types }) => {
 
-    const elementTypes = types.map(typeInfo => typeInfo.type.name)
+    // let CaptalizedType = captalizePokemonType(types);
+
+    // console.log(CaptalizedType);
+
+    const elementTypes = types.map(typeInfo => captalizePokemonType(typeInfo.type.name))
 
     accumulator += `
     <li class="card ${elementTypes[0]}">
-        <img class="card-image" alt="${name}" src="https://pokeres.bastionbot.org/images/pokemon/${id}.png"   />
+        <img class="card-image" alt="${name}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png"   />
         <h2 class="card-title">${id}. ${name}</h2>
         <p class="card-subtitle">${elementTypes.join(' | ')}</p>
     </li>
     `
     return accumulator
 }, '')
+
+const captalizePokemonType = (types) => {
+    types = types.charAt(0).toUpperCase() + types.slice(1)
+    return types;
+} 
 
 const insertPokemonsIntoPage = pokemons => {
     const ul = document.querySelector('[data-js="pokedex"]')
